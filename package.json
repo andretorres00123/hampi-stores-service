@@ -1,0 +1,20 @@
+{
+  "name": "hampi-stores-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/andre00123/hampi-stores-service.git"
+  },
+  "keywords": [],
+  "author": "Andre Torres",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://bitbucket.org/andre00123/hampi-stores-service/issues"
+  },
+  "homepage": "https://bitbucket.org/andre00123/hampi-stores-service#readme"
+}
