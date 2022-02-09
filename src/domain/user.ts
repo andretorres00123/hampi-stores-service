@@ -1,5 +1,5 @@
-import { Guard } from 'helpers/core/Guard';
-import { Result } from 'helpers/core/Result';
+import { Guard } from '../helpers/core/Guard';
+import { Result } from '../helpers/core/Result';
 import { Entity } from './common/Entity'
 import { UniqueEntityID } from './common/UniqueEntityID';
 

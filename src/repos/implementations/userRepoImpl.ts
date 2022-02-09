@@ -16,6 +16,6 @@ export class UserRepoImpl implements UserRepo {
     await this.dbClient.put({
       TableName: process.env.HAMPI_APP_TABLE || '',
       Item: rawUser,
-    })
+    }).promise()
   }
 }

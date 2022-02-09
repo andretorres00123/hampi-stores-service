@@ -1,4 +1,12 @@
-import { User } from 'domain/user'
+import { User } from '../domain/user'
+export interface RawUser {
+  PK: string
+  SK: string
+  email: string
+  displayName: string
+  createdAt?: string
+  updatedAt?: string
+}
 
 export class UserMapper {
   public static mapToPersistence(user: User): RawUser {
