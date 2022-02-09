@@ -1,0 +1,35 @@
+options:
+  concurrency: 0
+
+  collapsed:
+    bail: true
+
+  ignores:
+    - 'aws-sdk'
+    - 'pino-pretty'
+
+  allowMissing:
+    'ws':
+      - 'bufferutil'
+      - 'utf-8-validate'
+    'node-fetch':
+      - 'encoding'
+
+  dynamic:
+    bail: true
+    resolutions:
+      # AWS X-Ray SDK allows consumers to specify a custom whitelist file
+      # which we don't do. We should update and "include" appropriately
+      # if this changes.
+      #
+      # - ../../node_modules/aws-xray-sdk-core/lib/patchers/call_capturer.js [41:32]: require(source)
+      #
+      'aws-xray-sdk-core/lib/patchers/call_capturer.js': false
+
+packages:
+  signUp:
+    output: ../bundles/signUp.zip
+    cwd: ./dist
+
+    trace:
+      - functions/signUp/index.js
