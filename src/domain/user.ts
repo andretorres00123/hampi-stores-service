@@ -5,7 +5,7 @@ import { UniqueEntityID } from './common/UniqueEntityID';
 
 export interface UserProps {
   email: string
-  displayName: string
+  displayName?: string
   isEmailVerified?: boolean
   createdAt?: Date
   updatedAt?: Date
@@ -31,7 +31,6 @@ export class User extends Entity<UserProps> {
   public static create(props: UserProps, id?: UniqueEntityID): Result<User> {
     const guardArgs: IGuardArgument[] = [
       { argument: props.email, argumentName: 'email' },
-      { argument: props.displayName, argumentName: 'display name' },
     ]
 
     let guardResult = Guard.againstNullOrUndefinedBulk(guardArgs)

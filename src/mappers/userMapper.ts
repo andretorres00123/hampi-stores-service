@@ -3,7 +3,7 @@ export interface RawUser {
   PK: string
   SK: string
   email: string
-  displayName: string
+  displayName: string | null
   createdAt?: string
   updatedAt?: string
 }
@@ -15,7 +15,7 @@ export class UserMapper {
       PK: `USER#${userId}`,
       SK: `USER#${userId}`,
       email: user.props.email,
-      displayName: user.props.displayName,
+      displayName: user.props.displayName || null,
       createdAt: user.props.createdAt?.toISOString(),
       updatedAt: user.props.updatedAt?.toISOString(),
     }
