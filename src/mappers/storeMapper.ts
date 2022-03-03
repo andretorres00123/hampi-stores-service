@@ -13,7 +13,6 @@ export interface RawStore {
   isplayName?: string
   profileUrl?: string
   coverUrl?: string
-  timezone?: string
   whatsappUrl?: string
   locationUrl?: string
   locationAddress?: string

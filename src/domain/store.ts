@@ -13,7 +13,6 @@ export interface StoreProps {
   displayName?: string
   profileUrl?: string
   coverUrl?: string
-  timezone?: string
   whatsappUrl?: string
   locationUrl?: string
   locationAddress?: string
