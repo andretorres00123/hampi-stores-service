@@ -30,7 +30,8 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
   rest_api_id = aws_api_gateway_rest_api.stores_api_gateway.id
 
   depends_on = [
-    aws_api_gateway_integration.sign_up_integration
+    aws_api_gateway_integration.sign_up_integration,
+    aws_api_gateway_integration.stores_post_integration
   ]
 
   triggers = {
@@ -43,7 +44,9 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
     #       It will stabilize to only change when resources change afterwards.
     redeployment = sha1(jsonencode([
       aws_api_gateway_method.sign_up_post_method,
-      aws_api_gateway_integration.sign_up_integration
+      aws_api_gateway_method.stores_post_method,
+      aws_api_gateway_integration.sign_up_integration,
+      aws_api_gateway_integration.stores_post_integration
     ]))
   }
 

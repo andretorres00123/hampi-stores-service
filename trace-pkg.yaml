@@ -33,3 +33,10 @@ packages:
 
     trace:
       - functions/signUp/index.js
+
+  stores:
+    output: ../bundles/stores.zip
+    cwd: ./dist
+
+    trace:
+      - functions/stores/index.js
