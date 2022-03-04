@@ -9,4 +9,12 @@ export namespace CreateStoreErrors {
       } as UseCaseError)
     }
   }
+
+  export class InvalidRequest extends Result<UseCaseError> {
+    constructor(message: any) {
+      super(false, {
+        message,
+      } as UseCaseError)
+    }
+  }
 }

@@ -1,10 +1,10 @@
-// import { Store } from '../domain/store'
+import { Store } from '../domain/store'
 
 import { StoreRepoImpl } from './implementations/storeRepoImpl'
 import { documentClient } from './utils'
 
 export interface StoreRepo {
-  // createStore(store: Store): Promise<void>
+  createStore(store: Store): Promise<void>
   storeExists(workspace: string): Promise<boolean>
 }
 
