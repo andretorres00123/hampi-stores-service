@@ -5,7 +5,7 @@ export namespace CreateStoreErrors {
   export class StoreAlreadyExistsError extends Result<UseCaseError> {
     constructor(workspace: string) {
       super(false, {
-        message: `The ${workspace} workspace already exists`,
+        message: `The "${workspace}" workspace already exists`,
       } as UseCaseError)
     }
   }
