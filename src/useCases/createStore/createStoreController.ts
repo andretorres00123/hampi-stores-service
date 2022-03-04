@@ -29,6 +29,9 @@ export class CreateStoreController extends BaseController {
         if (error.constructor === CreateStoreErrors.StoreAlreadyExistsError) {
           return this.redirectResponse(callback, 409, JSON.stringify({ message: error.errorValue().message }))
         }
+        if (error.constructor === CreateStoreErrors.InvalidRequest) {
+          return this.badRequest(callback, error.errorValue().message)
+        }
         return this.fail(callback, error.errorValue().message)
       }
 

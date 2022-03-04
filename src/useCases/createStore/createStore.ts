@@ -9,7 +9,7 @@ import { UniqueEntityID } from '../../domain/common/UniqueEntityID'
 import { Category } from '../../domain/category'
 
 export type CreateStoreResponse = Either<
-  CreateStoreErrors.StoreAlreadyExistsError | AppError.UnexpectedError,
+  CreateStoreErrors.StoreAlreadyExistsError | CreateStoreErrors.InvalidRequest | AppError.UnexpectedError,
   Result<void>
 >
 
