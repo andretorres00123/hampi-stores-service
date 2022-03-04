@@ -17,7 +17,7 @@ export class StoreRepoImpl implements StoreRepo {
         IndexName: 'GSI1',
         KeyConditionExpression: 'GSI1PK = :workspace AND GSI1SK = :workspace',
         ExpressionAttributeValues: {
-          ':workspace': workspace,
+          ':workspace': `STORE#${workspace}`,
         },
       })
       .promise()

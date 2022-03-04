@@ -35,7 +35,7 @@ export class CreateStoreController extends BaseController {
         return this.fail(callback, error.errorValue().message)
       }
 
-      return this.ok(callback)
+      return this.created(callback)
     } catch (error: any) {
       return this.fail(callback, error)
     }

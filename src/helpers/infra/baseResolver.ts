@@ -27,6 +27,12 @@ export abstract class BaseController {
     })
   }
 
+  public created(callback: Callback): void {
+    return callback(null, {
+      statusCode: 201,
+    })
+  }
+
   public redirectResponse(callback: Callback, code: number, data: unknown): void {
     return callback(null, {
       statusCode: code,
