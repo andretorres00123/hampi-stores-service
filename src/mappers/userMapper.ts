@@ -1,4 +1,5 @@
 import { User } from '../domain/user'
+
 export interface RawUser {
   PK: string
   SK: string

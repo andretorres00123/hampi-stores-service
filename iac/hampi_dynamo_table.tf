@@ -66,6 +66,23 @@ resource "aws_dynamodb_table" "hampi_table" {
     type = "S"
   }
 
+  attribute {
+    name = "GSI1PK"
+    type = "S"
+  }
+
+  attribute {
+    name = "GSI1SK"
+    type = "S"
+  }
+
+  global_secondary_index {
+    name            = "GSI1"
+    hash_key        = "GSI1PK"
+    range_key       = "GSI1SK"
+    projection_type = "ALL"
+  }
+
   server_side_encryption {
     enabled     = true
     kms_key_arn = aws_kms_key.hampi_table_kms_key.arn
