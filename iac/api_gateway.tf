@@ -31,7 +31,8 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
 
   depends_on = [
     aws_api_gateway_integration.sign_up_integration,
-    aws_api_gateway_integration.stores_post_integration
+    aws_api_gateway_integration.stores_post_integration,
+    aws_api_gateway_integration.store_get_integration
   ]
 
   triggers = {
@@ -45,8 +46,10 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
     redeployment = sha1(jsonencode([
       aws_api_gateway_method.sign_up_post_method,
       aws_api_gateway_method.stores_post_method,
+      aws_api_gateway_method.store_get_method,
       aws_api_gateway_integration.sign_up_integration,
-      aws_api_gateway_integration.stores_post_integration
+      aws_api_gateway_integration.stores_post_integration,
+      aws_api_gateway_integration.store_get_integration
     ]))
   }
 
