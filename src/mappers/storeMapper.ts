@@ -98,7 +98,7 @@ export class StoreMapper {
       locationAddress: store.props.locationAddress,
       description: store.props.description,
       phone: store.props.phone,
-      ownerId: store.id.toString(),
+      ownerId: store.props.ownerId.toString(),
       categories: store.props.categories.map(({ name }) => name),
       createdAt: store.props.createdAt?.toISOString(),
       updatedAt: store.props.updatedAt?.toISOString(),
