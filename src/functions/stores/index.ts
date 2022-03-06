@@ -1,7 +1,7 @@
 import log from 'lambda-log'
 import { Context, APIGatewayProxyEvent, Callback } from 'aws-lambda'
 import { createStoreController } from '../../useCases/createStore'
-import { getStoreByWorkspaceController } from 'useCases/getStoreByWorkspace'
+import { getStoreByWorkspaceController } from '../../useCases/getStoreByWorkspace'
 
 export const handler = async (event: APIGatewayProxyEvent, context: Context, callback: Callback): Promise<any> => {
   log.info('Receiving request', { event, context })
