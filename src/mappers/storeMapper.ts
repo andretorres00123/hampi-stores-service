@@ -85,8 +85,19 @@ export class StoreMapper {
 
   public static mapToDTO(store: Store): StoreDTO {
     return {
-      ...store.props,
       id: store.id.toString(),
+      workspace: store.props.workspace,
+      country: store.props.country,
+      city: store.props.city,
+      state: store.props.state,
+      displayName: store.props.displayName,
+      profileUrl: store.props.profileUrl,
+      coverUrl: store.props.coverUrl,
+      whatsappUrl: store.props.whatsappUrl,
+      locationUrl: store.props.locationUrl,
+      locationAddress: store.props.locationAddress,
+      description: store.props.description,
+      phone: store.props.phone,
       ownerId: store.id.toString(),
       categories: store.props.categories.map(({ name }) => name),
       createdAt: store.props.createdAt?.toISOString(),
