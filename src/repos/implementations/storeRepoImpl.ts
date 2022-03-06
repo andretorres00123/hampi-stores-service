@@ -1,6 +1,6 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { Store } from '../../domain/store'
-import { StoreMapper } from '../../mappers/storeMapper'
+import { RawStore, StoreMapper } from '../../mappers/storeMapper'
 import { StoreRepo } from '../storeRepo'
 
 export class StoreRepoImpl implements StoreRepo {
@@ -28,6 +28,25 @@ export class StoreRepoImpl implements StoreRepo {
     }
 
     return true
+  }
+
+  async getStoreByWorkspace(workspace: string): Promise<Store | null> {
+    const { Items } = await this.dbClient
+      .query({
+        TableName: process.env.HAMPI_APP_TABLE || '',
+        IndexName: 'GSI1',
+        KeyConditionExpression: 'GSI1PK = :workspace AND GSI1SK = :workspace',
+        ExpressionAttributeValues: {
+          ':workspace': `STORE#${workspace}`,
+        },
+      })
+      .promise()
+
+    if (!Items || !Items[0]) {
+      return null
+    }
+
+    return StoreMapper.mapToDomain(Items[0] as RawStore)
   }
 
   async createStore(store: Store): Promise<void> {

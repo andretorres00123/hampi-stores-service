@@ -20,6 +20,13 @@ export abstract class BaseController {
     })
   }
 
+  public notFound(callback: Callback, message?: string): void {
+    return callback(null, {
+      statusCode: 404,
+      body: JSON.stringify({ message: message || 'Not Found' }),
+    })
+  }
+
   public ok<T>(callback: Callback, dto?: T): void {
     return callback(null, {
       statusCode: 200,

@@ -3,6 +3,7 @@ export interface CreateStoreDTO {
   country: string
   city: string
   ownerId: string
+  state: string
   displayName?: string
   profileUrl?: string
   phone?: string

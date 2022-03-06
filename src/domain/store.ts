@@ -8,6 +8,7 @@ export interface StoreProps {
   workspace: string
   country: string
   city: string
+  state: string
   ownerId: UniqueEntityID
   categories: Category[]
   displayName?: string
@@ -44,6 +45,7 @@ export class Store extends Entity<StoreProps> {
       { argument: props.workspace, argumentName: 'workspace' },
       { argument: props.country, argumentName: 'country' },
       { argument: props.city, argumentName: 'city' },
+      { argument: props.state, argumentName: 'state' },
       { argument: props.categories, argumentName: 'categories' },
       { argument: props.ownerId, argumentName: 'owner' },
     ]
