@@ -16,6 +16,11 @@ export abstract class BaseController {
   public static jsonResponse(callback: Callback, code: number, message: string): void {
     return callback(null, {
       statusCode: code,
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: JSON.stringify({ message }),
     })
   }
@@ -23,6 +28,11 @@ export abstract class BaseController {
   public notFound(callback: Callback, message?: string): void {
     return callback(null, {
       statusCode: 404,
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: JSON.stringify({ message: message || 'Not Found' }),
     })
   }
@@ -30,6 +40,11 @@ export abstract class BaseController {
   public ok<T>(callback: Callback, dto?: T): void {
     return callback(null, {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: dto ? JSON.stringify(dto) : undefined,
     })
   }
@@ -37,41 +52,34 @@ export abstract class BaseController {
   public created(callback: Callback): void {
     return callback(null, {
       statusCode: 201,
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
     })
   }
 
   public redirectResponse(callback: Callback, code: number, data: unknown): void {
     return callback(null, {
       statusCode: code,
-      body: data,
-    })
-  }
-
-  public cloudfrontForbiddenResponse(callback: Callback, message?: string): void {
-    return callback(null, {
-      status: '403',
-      statusDescription: 'Forbidden',
       headers: {
-        'content-type': [
-          {
-            key: 'Content-Type',
-            value: 'application/json',
-          },
-        ],
-        'content-encoding': [
-          {
-            key: 'Content-Encoding',
-            value: 'UTF-8',
-          },
-        ],
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
       },
-      body: message || 'Forbidden',
+      body: data,
     })
   }
 
   public forbidden(callback: Callback, message?: string): void {
     return callback(null, {
       statusCode: 403,
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: JSON.stringify({ message: message || 'Forbidden' }),
     })
   }
@@ -79,6 +87,11 @@ export abstract class BaseController {
   public badRequest(callback: Callback, message?: string): void {
     return callback(null, {
       statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: JSON.stringify({ message: message || 'Invalid request' }),
     })
   }
@@ -87,6 +100,11 @@ export abstract class BaseController {
     log.error(error)
     return callback(null, {
       statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+      },
       body: JSON.stringify({ message: typeof error === 'string' ? error : error.message.toString() }),
     })
   }
