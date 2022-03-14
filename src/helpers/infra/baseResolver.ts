@@ -17,7 +17,7 @@ export abstract class BaseController {
     return callback(null, {
       statusCode: code,
       headers: {
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
       },
@@ -29,7 +29,7 @@ export abstract class BaseController {
     return callback(null, {
       statusCode: 404,
       headers: {
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
       },
@@ -41,7 +41,7 @@ export abstract class BaseController {
     return callback(null, {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
       },
@@ -53,7 +53,7 @@ export abstract class BaseController {
     return callback(null, {
       statusCode: 201,
       headers: {
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
       },
@@ -64,7 +64,7 @@ export abstract class BaseController {
     return callback(null, {
       statusCode: code,
       headers: {
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
       },
@@ -76,7 +76,7 @@ export abstract class BaseController {
     return callback(null, {
       statusCode: 403,
       headers: {
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
       },
@@ -88,7 +88,7 @@ export abstract class BaseController {
     return callback(null, {
       statusCode: 400,
       headers: {
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
       },
@@ -101,7 +101,7 @@ export abstract class BaseController {
     return callback(null, {
       statusCode: 500,
       headers: {
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
       },
