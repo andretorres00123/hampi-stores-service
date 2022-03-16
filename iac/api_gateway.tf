@@ -4,9 +4,8 @@ locals {
 }
 
 resource "aws_api_gateway_rest_api" "stores_api_gateway" {
-  name               = local.api_gateway_name
-  description        = local.api_gateway_description
-  binary_media_types = ["*/*"]
+  name        = local.api_gateway_name
+  description = local.api_gateway_description
 
   tags = merge(local.common_aws_tags, {
     Name        = local.api_gateway_name
@@ -49,7 +48,9 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
       aws_api_gateway_method.store_get_method,
       aws_api_gateway_integration.sign_up_integration,
       aws_api_gateway_integration.stores_post_integration,
-      aws_api_gateway_integration.store_get_integration
+      aws_api_gateway_integration.store_get_integration,
+      module.cors_configuration_stores_resource,
+      module.cors_configuration_workspace_resource,
     ]))
   }
 
@@ -63,19 +64,4 @@ resource "aws_api_gateway_stage" "stores_api_stage" {
   rest_api_id          = aws_api_gateway_rest_api.stores_api_gateway.id
   stage_name           = local.namespace
   xray_tracing_enabled = true
-}
-
-resource "aws_api_gateway_method_settings" "hampi_rest_api_stage_settings" {
-  depends_on = [
-    aws_api_gateway_deployment.stores_api_deployment,
-    aws_api_gateway_stage.stores_api_stage
-  ]
-  rest_api_id = aws_api_gateway_rest_api.stores_api_gateway.id
-  stage_name  = local.namespace
-  method_path = "*/*"
-  settings {
-    metrics_enabled    = true
-    logging_level      = "ERROR"
-    data_trace_enabled = true
-  }
 }
