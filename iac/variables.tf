@@ -7,3 +7,9 @@ variable "LAMBDA_DEFAULT_MEMORY_SIZE" {
   type    = number
   default = 2048
 }
+
+variable "CORS_ALLOW_ORIGIN" {
+  type        = string
+  default     = "*"
+  description = "The CORS configuration Allow-Origin"
+}

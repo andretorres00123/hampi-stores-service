@@ -1,6 +1,12 @@
 import { Callback, APIGatewayProxyEvent } from 'aws-lambda'
 import log from 'lambda-log'
 
+const commonHeaders = {
+  'Access-Control-Allow-Headers': 'Origin,X-Requested-With,Content-Type,Accept',
+  'Access-Control-Allow-Origin': process.env.CORS_ALLOW_ORIGIN || '',
+  'Access-Control-Allow-Methods': 'OPTIONS,HEAD,GET,POST,PUT,PATCH,DELETE',
+}
+
 export abstract class BaseController {
   protected abstract executeImpl(event: APIGatewayProxyEvent, callback: Callback): Promise<void | any>
 
@@ -16,11 +22,7 @@ export abstract class BaseController {
   public static jsonResponse(callback: Callback, code: number, message: string): void {
     return callback(null, {
       statusCode: code,
-      headers: {
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-      },
+      headers: commonHeaders,
       body: JSON.stringify({ message }),
     })
   }
@@ -28,11 +30,7 @@ export abstract class BaseController {
   public notFound(callback: Callback, message?: string): void {
     return callback(null, {
       statusCode: 404,
-      headers: {
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-      },
+      headers: commonHeaders,
       body: JSON.stringify({ message: message || 'Not Found' }),
     })
   }
@@ -40,11 +38,7 @@ export abstract class BaseController {
   public ok<T>(callback: Callback, dto?: T): void {
     return callback(null, {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-      },
+      headers: commonHeaders,
       body: dto ? JSON.stringify(dto) : undefined,
     })
   }
@@ -52,22 +46,14 @@ export abstract class BaseController {
   public created(callback: Callback): void {
     return callback(null, {
       statusCode: 201,
-      headers: {
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-      },
+      headers: commonHeaders,
     })
   }
 
   public redirectResponse(callback: Callback, code: number, data: unknown): void {
     return callback(null, {
+      headers: commonHeaders,
       statusCode: code,
-      headers: {
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-      },
       body: data,
     })
   }
@@ -75,11 +61,7 @@ export abstract class BaseController {
   public forbidden(callback: Callback, message?: string): void {
     return callback(null, {
       statusCode: 403,
-      headers: {
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-      },
+      headers: commonHeaders,
       body: JSON.stringify({ message: message || 'Forbidden' }),
     })
   }
@@ -87,11 +69,7 @@ export abstract class BaseController {
   public badRequest(callback: Callback, message?: string): void {
     return callback(null, {
       statusCode: 400,
-      headers: {
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-      },
+      headers: commonHeaders,
       body: JSON.stringify({ message: message || 'Invalid request' }),
     })
   }
@@ -100,11 +78,7 @@ export abstract class BaseController {
     log.error(error)
     return callback(null, {
       statusCode: 500,
-      headers: {
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-      },
+      headers: commonHeaders,
       body: JSON.stringify({ message: typeof error === 'string' ? error : error.message.toString() }),
     })
   }

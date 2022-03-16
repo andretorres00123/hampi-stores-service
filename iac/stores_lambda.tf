@@ -7,6 +7,7 @@ locals {
     AWS_NODEJS_CONNECTION_REUSE_ENABLED = var.AWS_NODEJS_CONNECTION_REUSE_ENABLED
     NODE_ENV                            = "production"
     HAMPI_APP_TABLE                     = aws_dynamodb_table.hampi_table.name
+    CORS_ALLOW_ORIGIN                   = var.CORS_ALLOW_ORIGIN
   }
 
   stores_lambda_name = "hampi_stores_lambda"

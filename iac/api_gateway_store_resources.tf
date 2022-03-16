@@ -1,3 +1,13 @@
+locals {
+  allowed_cors_headers = [
+    "Authorization",
+    "Content-Type",
+    "X-Amz-Date",
+    "X-Amz-Security-Token",
+    "X-Api-Key",
+  ]
+}
+
 ### Resources
 
 resource "aws_api_gateway_resource" "stores_resource" {
@@ -49,4 +59,26 @@ resource "aws_api_gateway_integration" "store_get_integration" {
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = module.stores_lambda.lambda_function_invoke_arn
+}
+
+# CORS CONFIG
+
+module "cors_configuration_stores_resource" {
+  source  = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.stores_api_gateway.id
+  api_resource_id = aws_api_gateway_resource.stores_resource.id
+  allow_origin    = var.CORS_ALLOW_ORIGIN
+  allow_headers   = local.allowed_cors_headers
+}
+
+module "cors_configuration_workspace_resource" {
+  source  = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.stores_api_gateway.id
+  api_resource_id = aws_api_gateway_resource.workspace_resource.id
+  allow_origin    = var.CORS_ALLOW_ORIGIN
+  allow_headers   = local.allowed_cors_headers
 }
