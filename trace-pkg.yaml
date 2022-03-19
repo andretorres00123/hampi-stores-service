@@ -7,6 +7,9 @@ options:
   ignores:
     - 'aws-sdk'
     - 'pino-pretty'
+    - '@firebase/app'
+    - 'request'
+    - 'fast-crc32c'
 
   allowMissing:
     'ws':
@@ -40,3 +43,12 @@ packages:
 
     trace:
       - functions/stores/index.js
+
+  authorizer:
+    output: ../bundles/authorizer.zip
+    cwd: ./dist
+
+    trace:
+      - functions/authorizer/index.js
+    include:
+      - ../firebase-certificate.json

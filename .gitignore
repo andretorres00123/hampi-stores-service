@@ -1,6 +1,9 @@
 # Dependency directories
 node_modules/
 
+# Firebase
+firebase-certificate.json
+
 #local env file
 .env
 
