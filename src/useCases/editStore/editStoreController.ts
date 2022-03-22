@@ -24,7 +24,7 @@ export class EditStoreController extends BaseController {
 
       const result = await this.useCase.execute({
         ownerId: event.requestContext.authorizer?.userId,
-        storeId: event.pathParameters?.storeId as string,
+        storeId: event.pathParameters?.workspace as string,
         city: parsedBody.city,
         state: parsedBody.state,
         displayName: parsedBody.displayName,

@@ -5,7 +5,7 @@ import { EditStoreDTO } from './editStoreDTO'
 import { StoreRepo } from '../../repos/storeRepo'
 import { EditStoreErrors } from './editStoreErrors'
 import { Store } from '../../domain/store'
-import { UniqueEntityID } from 'domain/common/UniqueEntityID'
+import { UniqueEntityID } from '../../domain/common/UniqueEntityID'
 import { Category } from '../../domain/category'
 
 export type EditStoreResponse = Either<

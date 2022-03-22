@@ -53,7 +53,7 @@ export class StoreRepoImpl implements StoreRepo {
     const { Items } = await this.dbClient
       .query({
         TableName: process.env.HAMPI_APP_TABLE || '',
-        KeyConditionExpression: 'PK = :pk AND sk = :sk',
+        KeyConditionExpression: 'PK = :pk AND SK = :sk',
         ExpressionAttributeValues: {
           ':sk': `STORE#${id}`,
           ':pk': `USER#${ownerId}`,
@@ -92,7 +92,7 @@ export class StoreRepoImpl implements StoreRepo {
           SK: rawStore.SK,
         },
         UpdateExpression:
-          'set displayName = :displayName, city = :city, state = :state, profileUrl = :profileUrl, phone = :phone, whatsappUrl = :whatsappUrl, locationAddress = :locationAddress, locationUrl = :locationUrl, description = :description, coverUrl = :coverUrl, categories = :categories',
+          'set displayName = :displayName, city = :city, #state = :state, profileUrl = :profileUrl, phone = :phone, whatsappUrl = :whatsappUrl, locationAddress = :locationAddress, locationUrl = :locationUrl, description = :description, coverUrl = :coverUrl, categories = :categories, updatedAt = :updatedAt',
         ExpressionAttributeValues: {
           ':displayName': rawStore.displayName || '',
           ':city': rawStore.city,
@@ -105,6 +105,10 @@ export class StoreRepoImpl implements StoreRepo {
           ':description': rawStore.description || null,
           ':coverUrl': rawStore.coverUrl || null,
           ':categories': rawStore.categories,
+          ':updatedAt': rawStore.updatedAt,
+        },
+        ExpressionAttributeNames: {
+          '#state': 'state',
         },
         ConditionExpression: 'attribute_exists(PK) AND attribute_exists(SK)',
       })
