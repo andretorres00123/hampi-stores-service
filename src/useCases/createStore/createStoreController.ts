@@ -21,8 +21,8 @@ export class CreateStoreController extends BaseController {
       } else {
         parsedBody = JSON.parse(event.body as string)
       }
-      // TODO: Add ownerId to parsedBody
-      const result = await this.useCase.execute(parsedBody)
+
+      const result = await this.useCase.execute({ ...parsedBody, ownerId: event.requestContext.authorizer?.userId })
 
       if (result.isLeft()) {
         const error = result.value

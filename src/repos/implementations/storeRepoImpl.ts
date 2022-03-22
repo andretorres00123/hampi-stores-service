@@ -49,6 +49,25 @@ export class StoreRepoImpl implements StoreRepo {
     return StoreMapper.mapToDomain(Items[0] as RawStore)
   }
 
+  async getStoreByIdAndOwner(id: string, ownerId: string): Promise<Store | null> {
+    const { Items } = await this.dbClient
+      .query({
+        TableName: process.env.HAMPI_APP_TABLE || '',
+        KeyConditionExpression: 'PK = :pk AND SK = :sk',
+        ExpressionAttributeValues: {
+          ':sk': `STORE#${id}`,
+          ':pk': `USER#${ownerId}`,
+        },
+      })
+      .promise()
+
+    if (!Items || !Items[0]) {
+      return null
+    }
+
+    return StoreMapper.mapToDomain(Items[0] as RawStore)
+  }
+
   async createStore(store: Store): Promise<void> {
     store.updateTimestamps()
     const rawStore = StoreMapper.mapToPersistence(store)
@@ -57,6 +76,41 @@ export class StoreRepoImpl implements StoreRepo {
         TableName: process.env.HAMPI_APP_TABLE || '',
         Item: rawStore,
         ConditionExpression: 'attribute_not_exists(PK) AND attribute_not_exists(SK)',
+      })
+      .promise()
+  }
+
+  async updateStore(store: Store): Promise<void> {
+    store.updateTimestamps()
+    const rawStore = StoreMapper.mapToPersistence(store)
+
+    await this.dbClient
+      .update({
+        TableName: process.env.HAMPI_APP_TABLE || '',
+        Key: {
+          PK: rawStore.PK,
+          SK: rawStore.SK,
+        },
+        UpdateExpression:
+          'set displayName = :displayName, city = :city, #state = :state, profileUrl = :profileUrl, phone = :phone, whatsappUrl = :whatsappUrl, locationAddress = :locationAddress, locationUrl = :locationUrl, description = :description, coverUrl = :coverUrl, categories = :categories, updatedAt = :updatedAt',
+        ExpressionAttributeValues: {
+          ':displayName': rawStore.displayName || '',
+          ':city': rawStore.city,
+          ':state': rawStore.state,
+          ':profileUrl': rawStore.profileUrl || null,
+          ':phone': rawStore.phone || null,
+          ':whatsappUrl': rawStore.whatsappUrl || null,
+          ':locationAddress': rawStore.locationAddress || null,
+          ':locationUrl': rawStore.locationUrl || null,
+          ':description': rawStore.description || null,
+          ':coverUrl': rawStore.coverUrl || null,
+          ':categories': rawStore.categories,
+          ':updatedAt': rawStore.updatedAt,
+        },
+        ExpressionAttributeNames: {
+          '#state': 'state',
+        },
+        ConditionExpression: 'attribute_exists(PK) AND attribute_exists(SK)',
       })
       .promise()
   }
