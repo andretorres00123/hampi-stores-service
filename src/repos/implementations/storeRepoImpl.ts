@@ -129,6 +129,8 @@ export class StoreRepoImpl implements StoreRepo {
     if (!Items || !Items[0]) {
       return []
     }
+    // Necessary because the last element is the user itself (because single table design)
+    Items.pop()
 
     return Items.map((item) => StoreMapper.mapToDomain(item as RawStore))
   }
