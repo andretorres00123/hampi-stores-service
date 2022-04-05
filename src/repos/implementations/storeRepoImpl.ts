@@ -114,4 +114,22 @@ export class StoreRepoImpl implements StoreRepo {
       })
       .promise()
   }
+
+  async getStoresByOwnerId(ownerId: string): Promise<Store[]> {
+    const { Items } = await this.dbClient
+      .query({
+        TableName: process.env.HAMPI_APP_TABLE || '',
+        KeyConditionExpression: 'PK = :pk',
+        ExpressionAttributeValues: {
+          ':pk': `USER#${ownerId}`,
+        },
+      })
+      .promise()
+
+    if (!Items || !Items[0]) {
+      return []
+    }
+
+    return Items.map((item) => StoreMapper.mapToDomain(item as RawStore))
+  }
 }
