@@ -32,7 +32,8 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
     aws_api_gateway_integration.sign_up_integration,
     aws_api_gateway_integration.stores_post_integration,
     aws_api_gateway_integration.store_get_integration,
-    aws_api_gateway_integration.store_put_integration
+    aws_api_gateway_integration.store_put_integration,
+    aws_api_gateway_integration.stores_get_integration
   ]
 
   triggers = {
@@ -48,10 +49,12 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
       aws_api_gateway_method.stores_post_method,
       aws_api_gateway_method.store_get_method,
       aws_api_gateway_method.store_put_method,
+      aws_api_gateway_method.stores_get_method,
       aws_api_gateway_integration.sign_up_integration,
       aws_api_gateway_integration.stores_post_integration,
       aws_api_gateway_integration.store_get_integration,
       aws_api_gateway_integration.store_put_integration,
+      aws_api_gateway_integration.stores_get_integration,
       module.cors_configuration_stores_resource,
       module.cors_configuration_workspace_resource
     ]))

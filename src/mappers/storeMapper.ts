@@ -69,7 +69,7 @@ export class StoreMapper {
       {
         ...rawData,
         ownerId: new UniqueEntityID(rawData.ownerId),
-        categories: rawData.categories.map((category) => Category.create({ name: category }).getValue()),
+        categories: (rawData.categories || []).map((category) => Category.create({ name: category }).getValue()),
         createdAt: rawData.createdAt ? new Date(rawData.createdAt) : undefined,
         updatedAt: rawData.updatedAt ? new Date(rawData.updatedAt) : undefined,
       },

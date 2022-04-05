@@ -8,6 +8,7 @@ export interface StoreRepo {
   getStoreByWorkspace(workspace: string): Promise<Store | null>
   getStoreByIdAndOwner(id: string, ownerId: string): Promise<Store | null>
   updateStore(store: Store): Promise<void>
+  getStoresByOwnerId(ownerId: string): Promise<Store[]>
 }
 
 export const storeRepo = new StoreRepoImpl(documentClient)

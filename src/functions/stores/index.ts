@@ -3,6 +3,7 @@ import { Context, APIGatewayProxyEvent, Callback } from 'aws-lambda'
 import { createStoreController } from '../../useCases/createStore'
 import { getStoreByWorkspaceController } from '../../useCases/getStoreByWorkspace'
 import { editStoreController } from '../../useCases/editStore'
+import { getStoresByOwnerIdController } from '../../useCases/getStoresByOwner'
 
 export const handler = async (event: APIGatewayProxyEvent, context: Context, callback: Callback): Promise<any> => {
   log.info('Receiving request', { event, context })
@@ -11,6 +12,9 @@ export const handler = async (event: APIGatewayProxyEvent, context: Context, cal
   }
   if (event.httpMethod === 'GET' && event.resource === '/api/v1/stores/{workspace}') {
     return await getStoreByWorkspaceController.execute(event, callback)
+  }
+  if (event.httpMethod === 'GET' && event.resource === '/api/v1/stores') {
+    return await getStoresByOwnerIdController.execute(event, callback)
   }
   if (event.httpMethod === 'PUT' && event.resource === '/api/v1/stores/{workspace}') {
     return await editStoreController.execute(event, callback)
