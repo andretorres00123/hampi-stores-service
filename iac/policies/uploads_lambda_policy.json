@@ -11,8 +11,8 @@
         "dynamodb:DeleteItem"
       ],
       "Resource": [
-        "${HAMPI_TABLE_ARN}",
-        "${HAMPI_TABLE_ARN}/*"
+        "${HAMPI_UPLOADS_TABLE_ARN}",
+        "${HAMPI_UPLOADS_TABLE_ARN}/*"
       ]
     }
   ]
