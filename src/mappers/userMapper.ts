@@ -13,6 +13,18 @@ export interface RawUser {
   updatedAt?: string
 }
 
+export interface UserDTO {
+  id: string
+  email: string
+  displayName?: string | null
+  phone?: string | null
+  preferredLanguage?: PREFERED_LANGUAGES
+  // TODO handle pictureUrl
+  pictureUrl: null
+  createdAt: string
+  updatedAt: string
+}
+
 export class UserMapper {
   public static mapToPersistence(user: User): RawUser {
     const userId = user.id.toString()
@@ -49,5 +61,18 @@ export class UserMapper {
       throw new Error(`Error mapping user to Domain: ${userResult.errorValue()}`)
     }
     return userResult.getValue()
+  }
+
+  public static mapToDTO(user: User): UserDTO {
+    return {
+      id: user.id.toString(),
+      email: user.props.email,
+      displayName: user.props.displayName,
+      phone: user.props.phone,
+      preferredLanguage: user.props.preferredLanguage,
+      pictureUrl: null,
+      createdAt: user.props.createdAt?.toISOString() as string,
+      updatedAt: user.props.updatedAt?.toISOString() as string,
+    }
   }
 }
