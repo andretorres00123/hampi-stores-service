@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc --diagnostics -p tsconfig.json",
     "package": "npm run build && trace-pkg -c trace-pkg.yaml",
-    "test": "jest --silent --config ./jest.config.js ./src"
+    "test": "jest --silent --config ./jest.config.js ./src",
+    "test:watch": "jest --config ./jest.config.js --watchAll ./src"
   },
   "repository": {
     "type": "git",

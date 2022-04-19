@@ -50,6 +50,12 @@ packages:
 
     trace:
       - functions/uploads/index.js
+  users:
+    output: ../bundles/users.zip
+    cwd: ./dist
+
+    trace:
+      - functions/users/index.js
 
   authorizer:
     output: ../bundles/authorizer.zip
