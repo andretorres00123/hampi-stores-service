@@ -1,6 +1,7 @@
 import { Guard } from '../helpers/core/Guard'
 import { Result } from '../helpers/core/Result'
-import { ValueObject } from './common/ValueObject'
+import { Entity } from './common/Entity'
+import { UniqueEntityID } from './common/UniqueEntityID'
 
 export interface FileProps {
   publicUrl: string
@@ -10,8 +11,16 @@ export interface FileProps {
   size?: string
 }
 
-export class File extends ValueObject<FileProps> {
-  static create(props: FileProps): Result<File> {
+export class File extends Entity<FileProps> {
+  private constructor(props: FileProps, id?: UniqueEntityID) {
+    super(props, id)
+  }
+
+  get id(): UniqueEntityID {
+    return this._id
+  }
+
+  static create(props: FileProps, id?: UniqueEntityID): Result<File> {
     const requiredFields = [
       { argumentName: 'publicUrl', argument: props.publicUrl },
       { argumentName: 'contentType', argument: props.contentType },
@@ -28,6 +37,6 @@ export class File extends ValueObject<FileProps> {
       return Result.fail<File>(guardResult.message as string)
     }
 
-    return Result.ok(new File(props))
+    return Result.ok(new File(props, id))
   }
 }
