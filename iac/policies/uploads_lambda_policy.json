@@ -14,6 +14,29 @@
         "${HAMPI_UPLOADS_TABLE_ARN}",
         "${HAMPI_UPLOADS_TABLE_ARN}/*"
       ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:ListBucketVersions"
+      ],
+      "Resource": [
+        "arn:aws:s3:::${FILE_BUCKET_ID}",
+        "arn:aws:s3:::${FILE_BUCKET_ID}/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "kms:GenerateDataKey",
+        "kms:Decrypt"
+      ],
+      "Resource": [
+        "${FILE_BUCKET_KMS_ARN}"
+      ]
     }
   ]
 }

@@ -1,11 +1,16 @@
 locals {
   uploads_lambda_policy = templatefile("./policies/uploads_lambda_policy.json", {
     HAMPI_UPLOADS_TABLE_ARN = aws_dynamodb_table.uploads_table.arn
+    FILE_BUCKET_ID          = module.files_bucket.bucket_id
+    FILE_BUCKET_KMS_ARN     = module.files_bucket.kms_arn
   })
 
   uploads_environment_variables = {
     AWS_NODEJS_CONNECTION_REUSE_ENABLED = var.AWS_NODEJS_CONNECTION_REUSE_ENABLED
     NODE_ENV                            = "production"
+    HAMPI_FILES_TABLE                   = aws_dynamodb_table.uploads_table.name
+    HAMPI_FILES_BUCKET_NAME             = module.files_bucket.bucket_id
+    HAMPI_FILES_BUCKET_HOST             = module.files_bucket.bucket_domain_name
   }
 }
 
