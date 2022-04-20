@@ -21,12 +21,13 @@ export class GetSignedUrl implements UseCase<GetSignedUrlDTO, GetSignedUrlRespon
 
   async execute(request: GetSignedUrlDTO): Promise<GetSignedUrlResponse> {
     try {
+      const [_, extension] = request.filename.split('.')
       const uploadId = uuid()
       const { HAMPI_FILES_BUCKET_NAME, HAMPI_FILES_BUCKET_HOST: host } = process.env
 
       const signedUrl = this.bucketService.getSignedUrl(
         HAMPI_FILES_BUCKET_NAME as string,
-        `${request.folder}/${uploadId}`,
+        `${request.folder}/${uploadId}.${extension}`,
       )
 
       const { pathname, search } = new URL(signedUrl)
@@ -37,7 +38,7 @@ export class GetSignedUrl implements UseCase<GetSignedUrlDTO, GetSignedUrlRespon
           contentType: request.contentType,
           ownerId: request.ownerId,
           size: request.size,
-          publicUrl: `https://${host}/${request.folder}/${uploadId}`,
+          publicUrl: `https://${host}/${request.folder}/${uploadId}.${extension}`,
         },
         new UniqueEntityID(uploadId),
       )

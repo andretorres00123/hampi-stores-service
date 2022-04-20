@@ -37,7 +37,8 @@ export const handler: Handler = async (event: any, context: Context, callback: C
         'content-type': [{ key: 'Content-Type', value: contentType }],
       },
       body: data.toString('base64'),
-      isBase64Encoded: true,
+      bodyEncoding: 'base64',
+      statusDescription: 'OK',
     })
   } catch (error) {
     callback(null, {
