@@ -1,4 +1,5 @@
 import { S3 } from 'aws-sdk'
+import { GetObjectOutput } from 'aws-sdk/clients/s3'
 import { BucketService } from '../bucketService'
 
 export class S3BucketService implements BucketService {
@@ -14,5 +15,14 @@ export class S3BucketService implements BucketService {
       Key: filename,
       Expires: 60,
     })
+  }
+
+  getObject(fileKey: string, bucketName?: string): Promise<GetObjectOutput> {
+    return this.s3Client
+      .getObject({
+        Bucket: bucketName || '',
+        Key: fileKey,
+      })
+      .promise()
   }
 }
