@@ -4,6 +4,7 @@ import { documentClient } from './utils'
 
 export interface FileRepo {
   saveFile(file: File): Promise<void>
+  getFileById(fileId: string): Promise<File | null>
 }
 
 export const fileRepo = new FileRepoImpl(documentClient)

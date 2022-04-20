@@ -8,7 +8,7 @@ export interface FileProps {
   contentType: string
   ownerId: string
   filename: string
-  size?: string
+  size?: string | null
 }
 
 export class File extends Entity<FileProps> {

@@ -19,4 +19,21 @@ export class FileRepoImpl implements FileRepo {
       })
       .promise()
   }
+
+  async getFileById(fileId: string): Promise<File | null> {
+    const result = await this.dbClient
+      .get({
+        TableName: process.env.HAMPI_FILES_TABLE || '',
+        Key: {
+          PK: fileId,
+        },
+      })
+      .promise()
+
+    if (!result.Item) {
+      return null
+    }
+
+    return FileMapper.mapToDomain(result.Item as any)
+  }
 }

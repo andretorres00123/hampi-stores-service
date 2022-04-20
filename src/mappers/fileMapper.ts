@@ -1,6 +1,7 @@
+import { UniqueEntityID } from '../domain/common/UniqueEntityID'
 import { File } from '../domain/file'
 
-interface FileMapperPersistence {
+interface FilePersistence {
   PK: string
   id: string
   publicUrl: string
@@ -20,7 +21,7 @@ interface FileDTO {
 }
 
 export class FileMapper {
-  static mapToPersistence(file: File): FileMapperPersistence {
+  static mapToPersistence(file: File): FilePersistence {
     return {
       PK: file.id.toString(),
       id: file.id.toString(),
@@ -41,5 +42,24 @@ export class FileMapper {
       filename: file.props.filename,
       size: file.props.size || null,
     }
+  }
+
+  static mapToDomain(rawFile: FilePersistence): File {
+    const result = File.create(
+      {
+        publicUrl: rawFile.publicUrl,
+        contentType: rawFile.contentType,
+        ownerId: rawFile.ownerId,
+        filename: rawFile.filename,
+        size: rawFile.size,
+      },
+      new UniqueEntityID(rawFile.PK),
+    )
+
+    if (result.isFailure) {
+      throw new Error(`Error mapping File: ${result.errorValue()}`)
+    }
+
+    return result.getValue()
   }
 }
