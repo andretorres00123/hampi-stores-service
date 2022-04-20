@@ -8,6 +8,9 @@ export const handler = async (event: APIGatewayProxyEvent, context: Context, cal
   if (event.httpMethod === 'POST' && event.resource === '/api/v1/uploads/getSignedUrl') {
     return getSignedUrlController.execute(event, callback)
   }
+  if (event.httpMethod === 'DELETE' && event.resource === '/api/v1/uploads/{fileId}') {
+    // TODO implement
+  }
 
   return {
     statusCode: 405,
