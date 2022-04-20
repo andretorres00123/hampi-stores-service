@@ -10,7 +10,7 @@ locals {
     NODE_ENV                            = "production"
     HAMPI_FILES_TABLE                   = aws_dynamodb_table.uploads_table.name
     HAMPI_FILES_BUCKET_NAME             = module.files_bucket.bucket_id
-    HAMPI_FILES_BUCKET_HOST             = module.files_bucket.bucket_domain_name
+    HAMPI_FILES_BUCKET_HOST             = aws_cloudfront_distribution.files_bucket_distribution.domain_name
   }
 }
 
@@ -22,14 +22,14 @@ module "uploads_lambda" {
   archive_file     = "../bundles/uploads.zip"
   lambda_handler   = "functions/uploads/index.handler"
   aws_region       = local.region
-  environment_vars = local.stores_environment_variables
+  environment_vars = local.uploads_environment_variables
   memory_size      = var.LAMBDA_DEFAULT_MEMORY_SIZE
 }
 
 resource "aws_iam_role_policy" "uploads_lambda_function_role_policy" {
   name   = "hampi_uploads_${local.namespace}_lambda_function_policy"
   role   = module.uploads_lambda.iam_role_name
-  policy = local.stores_lambda_policy
+  policy = local.uploads_lambda_policy
 }
 
 # API Gateway lambda invoke permission

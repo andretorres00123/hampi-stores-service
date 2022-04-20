@@ -8,13 +8,11 @@ export class S3BucketService implements BucketService {
     this.s3Client = s3Client
   }
 
-  getSignedUrl(bucketName: string, filename: string, contentType: string): string {
+  getSignedUrl(bucketName: string, filename: string): string {
     return this.s3Client.getSignedUrl('putObject', {
       Bucket: bucketName,
       Key: filename,
       Expires: 60,
-      ACL: 'public-read',
-      ContentType: contentType,
     })
   }
 }

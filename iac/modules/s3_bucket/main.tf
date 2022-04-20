@@ -15,7 +15,7 @@ resource "aws_kms_key" "this_encrypt_key" {
 
 resource "aws_s3_bucket" "this" {
   bucket        = local.bucket_name
-  acl           = "public-read"
+  acl           = "private"
   force_destroy = true
 
   server_side_encryption_configuration {
@@ -28,7 +28,7 @@ resource "aws_s3_bucket" "this" {
   }
 
   cors_rule {
-    allowed_methods = ["POST", "PUT", "GET"]
+    allowed_methods = ["POST", "PUT"]
     allowed_headers = ["*"]
     allowed_origins = var.allowed_origins
   }

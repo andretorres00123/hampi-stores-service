@@ -57,6 +57,13 @@ packages:
     trace:
       - functions/users/index.js
 
+  getFiles:
+    output: ../bundles/getFiles.zip
+    cwd: ./dist
+
+    trace:
+      - functions/getFiles/index.js
+
   authorizer:
     output: ../bundles/authorizer.zip
     cwd: ./dist

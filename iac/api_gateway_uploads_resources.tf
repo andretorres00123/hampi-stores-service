@@ -7,8 +7,8 @@ resource "aws_api_gateway_resource" "uploads_resource" {
 }
 
 resource "aws_api_gateway_resource" "signed_url_resource" {
-  rest_api_id = aws_api_gateway_resource.v1_resource.rest_api_id
-  parent_id   = aws_api_gateway_resource.v1_resource.id
+  rest_api_id = aws_api_gateway_resource.uploads_resource.rest_api_id
+  parent_id   = aws_api_gateway_resource.uploads_resource.id
   path_part   = "getSignedUrl"
 }
 
@@ -28,7 +28,7 @@ resource "aws_api_gateway_method" "uploads_post_method" {
 resource "aws_api_gateway_method" "signed_url_get_method" {
   rest_api_id   = aws_api_gateway_resource.signed_url_resource.rest_api_id
   resource_id   = aws_api_gateway_resource.signed_url_resource.id
-  http_method   = "GET"
+  http_method   = "POST"
   authorization = "CUSTOM"
   authorizer_id = aws_api_gateway_authorizer.hampi_stores_rest_api_authorizer.id
   request_parameters = {

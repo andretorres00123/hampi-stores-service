@@ -6,6 +6,7 @@ import { GetSignedUrlDTO, GetSignedUrlResponseDTO } from './getSignedUrlDTO'
 import { FileRepo } from '../../repos/fileRepo'
 import { BucketService } from '../../services/bucketService'
 import { File } from '../../domain/file'
+import { UniqueEntityID } from '../../domain/common/UniqueEntityID'
 
 export type GetSignedUrlResponse = Either<AppError.UnexpectedError, Result<GetSignedUrlResponseDTO>>
 
@@ -20,25 +21,26 @@ export class GetSignedUrl implements UseCase<GetSignedUrlDTO, GetSignedUrlRespon
 
   async execute(request: GetSignedUrlDTO): Promise<GetSignedUrlResponse> {
     try {
-      const [filename, extension] = request.filename.split('.')
-      const finalName = `${filename.trim().replace(/\s/g, '')}_${uuid()}.${extension}`
+      const uploadId = uuid()
       const { HAMPI_FILES_BUCKET_NAME, HAMPI_FILES_BUCKET_HOST: host } = process.env
 
       const signedUrl = this.bucketService.getSignedUrl(
         HAMPI_FILES_BUCKET_NAME as string,
-        `${request.folder}/${finalName}`,
-        request.contentType,
+        `${request.folder}/${uploadId}`,
       )
 
       const { pathname, search } = new URL(signedUrl)
 
-      const fileResult = File.create({
-        filename: finalName,
-        contentType: request.contentType,
-        ownerId: request.ownerId,
-        size: request.size,
-        publicUrl: `https://${HAMPI_FILES_BUCKET_NAME as string}.s3.amazonaws.com/${request.folder}/${finalName}`,
-      })
+      const fileResult = File.create(
+        {
+          filename: request.filename,
+          contentType: request.contentType,
+          ownerId: request.ownerId,
+          size: request.size,
+          publicUrl: `https://${host}/${request.folder}/${uploadId}`,
+        },
+        new UniqueEntityID(uploadId),
+      )
 
       if (fileResult.isFailure) {
         return left(new AppError.UnexpectedError(fileResult.errorValue()))
