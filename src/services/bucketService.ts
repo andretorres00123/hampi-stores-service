@@ -3,8 +3,9 @@ import { GetObjectOutput } from 'aws-sdk/clients/s3'
 import { S3BucketService } from './implementations/s3BucketService'
 
 export interface BucketService {
-  getSignedUrl(bucketName: string, filename: string): string
+  getSignedUrl(filename: string): string
   getObject(fileKey: string, bucketName?: string): Promise<GetObjectOutput>
+  deleteObject(fileKey: string): Promise<void>
 }
 
 const s3Client = new AWS.S3({ region: 'us-east-1', signatureVersion: 'v4' })

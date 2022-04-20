@@ -9,9 +9,9 @@ export class S3BucketService implements BucketService {
     this.s3Client = s3Client
   }
 
-  getSignedUrl(bucketName: string, filename: string): string {
+  getSignedUrl(filename: string): string {
     return this.s3Client.getSignedUrl('putObject', {
-      Bucket: bucketName,
+      Bucket: process.env.HAMPI_FILES_BUCKET_NAME || '',
       Key: filename,
       Expires: 60,
     })
@@ -21,6 +21,15 @@ export class S3BucketService implements BucketService {
     return this.s3Client
       .getObject({
         Bucket: bucketName || '',
+        Key: fileKey,
+      })
+      .promise()
+  }
+
+  async deleteObject(fileKey: string): Promise<void> {
+    await this.s3Client
+      .deleteObject({
+        Bucket: process.env.HAMPI_FILES_BUCKET_NAME || '',
         Key: fileKey,
       })
       .promise()

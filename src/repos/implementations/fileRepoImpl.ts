@@ -36,4 +36,15 @@ export class FileRepoImpl implements FileRepo {
 
     return FileMapper.mapToDomain(result.Item as any)
   }
+
+  async deleteFile(fileId: string): Promise<void> {
+    await this.dbClient
+      .delete({
+        TableName: process.env.HAMPI_FILES_TABLE || '',
+        Key: {
+          PK: fileId,
+        },
+      })
+      .promise()
+  }
 }

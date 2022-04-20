@@ -8,6 +8,8 @@ export interface FileProps {
   contentType: string
   ownerId: string
   filename: string
+  fileKey: string
+  folder: string
   size?: string | null
 }
 

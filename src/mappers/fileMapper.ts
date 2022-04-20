@@ -8,6 +8,8 @@ interface FilePersistence {
   contentType: string
   ownerId: string
   filename: string
+  fileKey: string
+  folder: string
   size: string | null
 }
 
@@ -17,6 +19,7 @@ interface FileDTO {
   contentType: string
   ownerId: string
   filename: string
+  folder: string
   size: string | null
 }
 
@@ -30,6 +33,8 @@ export class FileMapper {
       ownerId: file.props.ownerId,
       filename: file.props.filename,
       size: file.props.size || null,
+      fileKey: file.props.fileKey,
+      folder: file.props.folder,
     }
   }
 
@@ -41,6 +46,7 @@ export class FileMapper {
       ownerId: file.props.ownerId,
       filename: file.props.filename,
       size: file.props.size || null,
+      folder: file.props.folder,
     }
   }
 
@@ -52,6 +58,8 @@ export class FileMapper {
         ownerId: rawFile.ownerId,
         filename: rawFile.filename,
         size: rawFile.size,
+        fileKey: rawFile.fileKey,
+        folder: rawFile.folder,
       },
       new UniqueEntityID(rawFile.PK),
     )
