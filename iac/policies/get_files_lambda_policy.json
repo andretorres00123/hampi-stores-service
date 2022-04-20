@@ -5,7 +5,9 @@
       "Effect": "Allow",
       "Action": [
         "s3:GetObject",
-        "s3:GetObjectVersion"
+        "s3:GetObjectVersion",
+        "s3:ListBucket",
+        "s3:ListBucketVersions"
       ],
       "Resource": [
         "arn:aws:s3:::${FILES_BUCKET_ID}",
