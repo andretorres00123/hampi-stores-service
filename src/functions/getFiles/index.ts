@@ -13,7 +13,7 @@ export const handler: Handler = async (event: any, context: Context, callback: C
       return callback(null, request)
     }
 
-    const result = await getFileByIdUseCase.execute({ fileId: uri })
+    const result = await getFileByIdUseCase.execute({ fileId: uri.substring(1) })
 
     if (result.isLeft()) {
       const error = result.value
@@ -22,6 +22,9 @@ export const handler: Handler = async (event: any, context: Context, callback: C
       }
       return callback(null, {
         status: 500,
+        headers: {
+          'content-type': [{ key: 'Content-Type', value: 'application/json' }],
+        },
         body: JSON.stringify({ message: error.errorValue().message }),
       })
     }
@@ -39,6 +42,9 @@ export const handler: Handler = async (event: any, context: Context, callback: C
   } catch (error) {
     callback(null, {
       status: 500,
+      headers: {
+        'content-type': [{ key: 'Content-Type', value: 'application/json' }],
+      },
       body: JSON.stringify(error),
     })
   }
