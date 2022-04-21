@@ -11,6 +11,8 @@ interface FilePersistence {
   fileKey: string
   folder: string
   size: string | null
+  isUploaded: boolean
+  uploadedAt: string | null
 }
 
 interface FileDTO {
@@ -21,6 +23,8 @@ interface FileDTO {
   filename: string
   folder: string
   size: string | null
+  uploadedAt: string | null
+  isUploaded: boolean
 }
 
 export class FileMapper {
@@ -35,6 +39,8 @@ export class FileMapper {
       size: file.props.size || null,
       fileKey: file.props.fileKey,
       folder: file.props.folder,
+      isUploaded: file.props.isUploaded,
+      uploadedAt: file.props.uploadedAt?.toISOString() || null,
     }
   }
 
@@ -47,6 +53,8 @@ export class FileMapper {
       filename: file.props.filename,
       size: file.props.size || null,
       folder: file.props.folder,
+      uploadedAt: file.props.uploadedAt?.toISOString() || null,
+      isUploaded: file.props.isUploaded,
     }
   }
 
@@ -60,6 +68,8 @@ export class FileMapper {
         size: rawFile.size,
         fileKey: rawFile.fileKey,
         folder: rawFile.folder,
+        isUploaded: rawFile.isUploaded,
+        uploadedAt: rawFile.uploadedAt ? new Date(rawFile.uploadedAt) : undefined,
       },
       new UniqueEntityID(rawFile.PK),
     )

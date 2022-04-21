@@ -10,12 +10,19 @@ export interface FileProps {
   filename: string
   fileKey: string
   folder: string
+  isUploaded: boolean
+  uploadedAt?: Date
   size?: string | null
 }
 
 export class File extends Entity<FileProps> {
   private constructor(props: FileProps, id?: UniqueEntityID) {
     super(props, id)
+  }
+
+  hasBeenUploaded(): void {
+    this.props.uploadedAt = new Date()
+    this.props.isUploaded = true
   }
 
   get id(): UniqueEntityID {

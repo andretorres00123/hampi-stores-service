@@ -38,6 +38,7 @@ export class GetSignedUrl implements UseCase<GetSignedUrlDTO, GetSignedUrlRespon
           size: request.size,
           fileKey,
           folder: request.folder,
+          isUploaded: false,
           publicUrl: `https://${host}/${request.folder}/${uploadId}.${extension}`,
         },
         new UniqueEntityID(uploadId),

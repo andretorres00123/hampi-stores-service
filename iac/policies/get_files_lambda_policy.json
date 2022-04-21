@@ -27,7 +27,8 @@
     {
       "Effect": "Allow",
       "Action": [
-        "dynamodb:GetItem"
+        "dynamodb:GetItem",
+        "dynamodb:PutItem"
       ],
       "Resource": [
         "${HAMPI_UPLOADS_TABLE_ARN}",
