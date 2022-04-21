@@ -1,0 +1,9 @@
+output "lambda_function_name" { value = aws_lambda_function.lambda_function.function_name }
+output "lambda_function_id" { value = aws_lambda_function.lambda_function.id }
+output "lambda_function_arn" { value = aws_lambda_function.lambda_function.arn }
+output "lambda_function_invoke_arn" { value = aws_lambda_function.lambda_function.invoke_arn }
+output "lambda_function" { value = aws_lambda_function.lambda_function }
+output "lambda_name" { value = local.lambda_name }
+output "lambda_log_group" { value = aws_cloudwatch_log_group.lambda_log_group.name }
+output "lambda_qualified_arn" { value = aws_lambda_function.lambda_function.qualified_arn }
+output "iam_role_name" { value = aws_iam_role.lambda_function_role.name }
