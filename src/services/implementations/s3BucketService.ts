@@ -17,13 +17,21 @@ export class S3BucketService implements BucketService {
     })
   }
 
-  getObject(fileKey: string, bucketName?: string): Promise<GetObjectOutput> {
-    return this.s3Client
-      .getObject({
-        Bucket: bucketName || '',
-        Key: fileKey,
-      })
-      .promise()
+  async getObject(fileKey: string, bucketName?: string): Promise<GetObjectOutput | null> {
+    try {
+      const result = await this.s3Client
+        .getObject({
+          Bucket: bucketName || '',
+          Key: fileKey,
+        })
+        .promise()
+      return result
+    } catch (error: any) {
+      if (error.name === 'NoSuchKey') {
+        return null
+      }
+      throw error
+    }
   }
 
   async deleteObject(fileKey: string): Promise<void> {

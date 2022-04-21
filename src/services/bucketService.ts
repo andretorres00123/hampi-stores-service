@@ -4,7 +4,7 @@ import { S3BucketService } from './implementations/s3BucketService'
 
 export interface BucketService {
   getSignedUrl(filename: string): string
-  getObject(fileKey: string, bucketName?: string): Promise<GetObjectOutput>
+  getObject(fileKey: string, bucketName?: string): Promise<GetObjectOutput | null>
   deleteObject(fileKey: string): Promise<void>
 }
 

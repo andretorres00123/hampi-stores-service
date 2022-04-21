@@ -22,7 +22,7 @@ export class GetFileById implements UseCase<GetFileByIdDTO, GetFileByIdResponse>
       // TODO get bucketname
       const imageResult = await this.bucketService.getObject(request.fileId, 'hampi-files-bucket-sandbox')
 
-      if (!imageResult.Body) {
+      if (!imageResult || !imageResult.Body) {
         return left(new GetFileByIdErrors.NotFound())
       }
 
