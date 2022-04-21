@@ -11,7 +11,7 @@ export const handler: Handler = async (event: any, context: Context, callback: C
     const request = event.Records[0].cf.request
     const { uri, method } = request
 
-    if (method !== 'PUT') {
+    if (method === 'PUT') {
       const [fileId] = uri.substring(1).split('/')[1].split('.')
       const result = await fileUploadedUseCase.execute({ fileId })
 
