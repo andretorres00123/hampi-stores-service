@@ -49,4 +49,23 @@ export class FileRepoImpl implements FileRepo {
       })
       .promise()
   }
+
+  async getNotUploadedFiles(): Promise<File[]> {
+    const { Items } = await this.dbClient
+      .query({
+        TableName: process.env.HAMPI_FILES_TABLE || 'hampi-uploads-sandbox',
+        IndexName: 'uploaded_status',
+        KeyConditionExpression: 'isUploaded = :isUploaded',
+        ExpressionAttributeValues: {
+          ':isUploaded': 0,
+        },
+      })
+      .promise()
+
+    if (!Items || !Items[0]) {
+      // If there is no result, the workspace is unique
+      return []
+    }
+    return Items.map((item: any) => FileMapper.mapToDomain(item))
+  }
 }
