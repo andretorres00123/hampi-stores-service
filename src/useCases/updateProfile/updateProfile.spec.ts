@@ -18,7 +18,15 @@ describe('UpdateProfile', () => {
       phone: '+19883456767',
       preferredLanguage: 'EN',
       displayName: 'Andre Torres',
-      pictureUrl: 'https://google.com/photos/cat.jpg',
+      profilePicture: {
+        id: 'file-id',
+        contentType: 'image/png',
+        filename: 'cat.png',
+        folder: 'profiles',
+        ownerId: 'unique-id',
+        publicUrl: 'https://google.com/images/cat.png',
+        size: null,
+      },
     }
     mockedUser = User.create({ email: 'test@test.com' }).getValue()
     instance = new UpdateProfile(mockedUserRepo)

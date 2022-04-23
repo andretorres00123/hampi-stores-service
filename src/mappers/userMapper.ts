@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '../domain/common/UniqueEntityID'
 import { PREFERED_LANGUAGES, User } from '../domain/user'
+import { FileObjectMapper } from './fileObjectMapper'
 
 export interface RawUser {
   PK: string
@@ -8,7 +9,7 @@ export interface RawUser {
   displayName?: string | null
   phone?: string | null
   preferredLanguage?: PREFERED_LANGUAGES
-  pictureUrl?: string | null
+  profilePicture?: FileObjectDTO | null
   createdAt?: string
   updatedAt?: string
 }
@@ -19,8 +20,7 @@ export interface UserDTO {
   displayName?: string | null
   phone?: string | null
   preferredLanguage?: PREFERED_LANGUAGES
-  // TODO handle pictureUrl
-  pictureUrl: null
+  profilePicture: FileObjectDTO | null
   createdAt: string
   updatedAt: string
 }
@@ -35,8 +35,7 @@ export class UserMapper {
       displayName: user.props.displayName || null,
       phone: user.props.phone || null,
       preferredLanguage: user.props.preferredLanguage || 'EN',
-      // TODO handle pictureUrl
-      pictureUrl: null,
+      profilePicture: FileObjectMapper.mapToPersistence(user.profilePicture),
       createdAt: user.props.createdAt?.toISOString(),
       updatedAt: user.props.updatedAt?.toISOString(),
     }
@@ -50,7 +49,7 @@ export class UserMapper {
         ...rawUser,
         displayName: rawUser.displayName || '',
         phone: rawUser.phone || '',
-        pictureUrl: undefined,
+        profilePicture: rawUser.profilePicture ? FileObjectMapper.mapToDomain(rawUser.profilePicture) : undefined,
         createdAt: new Date(rawUser.createdAt as string),
         updatedAt: new Date(rawUser.updatedAt as string),
       },
@@ -70,7 +69,7 @@ export class UserMapper {
       displayName: user.props.displayName,
       phone: user.props.phone,
       preferredLanguage: user.props.preferredLanguage,
-      pictureUrl: null,
+      profilePicture: user.profilePicture ? FileObjectMapper.mapToDTO(user.profilePicture) : null,
       createdAt: user.props.createdAt?.toISOString() as string,
       updatedAt: user.props.updatedAt?.toISOString() as string,
     }

@@ -5,5 +5,5 @@ export interface UpdateProfileDTO {
   phone?: string
   displayName?: string
   preferredLanguage?: PREFERED_LANGUAGES
-  pictureUrl?: string
+  profilePicture?: FileObjectDTO
 }

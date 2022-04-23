@@ -4,7 +4,8 @@ import { Either, left, right } from '../../helpers/core/Either'
 import { Result } from '../../helpers/core/Result'
 import { UpdateProfileDTO } from './updateProfileDTO'
 import { UpdateProfileErrors } from './updateProfileErrors'
-import { User } from '../../domain/user'
+import { User, UserProps } from '../../domain/user'
+import { FileObject } from '../../domain/fileObject'
 
 export type UpdateProfileResponse = Either<
   UpdateProfileErrors.NotFound | UpdateProfileErrors.InvalidProperty | AppError.UnexpectedError,
@@ -26,8 +27,17 @@ export class UpdateProfile implements UseCase<UpdateProfileDTO, UpdateProfileRes
         return left(new UpdateProfileErrors.NotFound())
       }
 
-      // TODO handle pictureUrl
-      const newUserResult = User.create({ ...user.props, ...request, pictureUrl: undefined }, user.id)
+      const newUserProps: UserProps = { ...user.props, ...request, profilePicture: undefined }
+
+      if (request.profilePicture) {
+        const fileObjectResult = FileObject.create(request.profilePicture)
+        if (fileObjectResult.isFailure) {
+          return left(new UpdateProfileErrors.InvalidProperty(fileObjectResult.errorValue()))
+        }
+        newUserProps.profilePicture = fileObjectResult.getValue()
+      }
+
+      const newUserResult = User.create(newUserProps, user.id)
       if (newUserResult.isFailure) {
         return left(new UpdateProfileErrors.InvalidProperty(newUserResult.errorValue()))
       }
