@@ -50,12 +50,20 @@ packages:
 
     trace:
       - functions/uploads/index.js
+
   users:
     output: ../bundles/users.zip
     cwd: ./dist
 
     trace:
       - functions/users/index.js
+
+  deleteFiles:
+    output: ../bundles/deleteFiles.zip
+    cwd: ./dist
+
+    trace:
+      - functions/deleteFiles/index.js
 
   getFiles:
     output: ../bundles/getFiles.zip

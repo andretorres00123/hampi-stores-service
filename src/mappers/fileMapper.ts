@@ -11,7 +11,7 @@ interface FilePersistence {
   fileKey: string
   folder: string
   size: string | null
-  isUploaded: boolean
+  isUploaded: number
   uploadedAt: string | null
 }
 
@@ -39,7 +39,7 @@ export class FileMapper {
       size: file.props.size || null,
       fileKey: file.props.fileKey,
       folder: file.props.folder,
-      isUploaded: file.props.isUploaded,
+      isUploaded: file.props.isUploaded ? 1 : 0,
       uploadedAt: file.props.uploadedAt?.toISOString() || null,
     }
   }
@@ -68,7 +68,7 @@ export class FileMapper {
         size: rawFile.size,
         fileKey: rawFile.fileKey,
         folder: rawFile.folder,
-        isUploaded: rawFile.isUploaded,
+        isUploaded: !!rawFile.isUploaded,
         uploadedAt: rawFile.uploadedAt ? new Date(rawFile.uploadedAt) : undefined,
       },
       new UniqueEntityID(rawFile.PK),

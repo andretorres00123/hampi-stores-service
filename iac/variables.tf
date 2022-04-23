@@ -13,3 +13,8 @@ variable "CORS_ALLOW_ORIGIN" {
   default     = "*"
   description = "The CORS configuration Allow-Origin"
 }
+
+variable "DELETE_FILES_SCHEDULE_EXPRESSION" {
+  type    = string
+  default = "rate(1 day)"
+}
