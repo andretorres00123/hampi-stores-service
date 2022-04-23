@@ -2,7 +2,7 @@ import { Guard } from '../helpers/core/Guard'
 import { Result } from '../helpers/core/Result'
 import { Entity } from './common/Entity'
 import { UniqueEntityID } from './common/UniqueEntityID'
-import { File } from './file'
+import { FileObject } from './fileObject'
 
 export type PREFERED_LANGUAGES = 'ES' | 'EN'
 
@@ -12,7 +12,7 @@ export interface UserProps {
   phone?: string
   preferredLanguage?: PREFERED_LANGUAGES
   isEmailVerified?: boolean
-  pictureUrl?: File
+  profilePicture?: FileObject
   createdAt?: Date
   updatedAt?: Date
 }
@@ -24,6 +24,10 @@ export class User extends Entity<UserProps> {
 
   get id(): UniqueEntityID {
     return this._id
+  }
+
+  get profilePicture(): FileObject | undefined {
+    return this.props.profilePicture
   }
 
   public updateTimestamps(): void {

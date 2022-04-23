@@ -32,12 +32,12 @@ export class UserRepoImpl implements UserRepo {
           SK: rawUser.SK,
         },
         UpdateExpression:
-          'set phone = :phone, displayName = :displayName, preferredLanguage = :preferredLanguage, pictureUrl = :pictureUrl, updatedAt = :updatedAt',
+          'set phone = :phone, displayName = :displayName, preferredLanguage = :preferredLanguage, profilePicture = :profilePicture, updatedAt = :updatedAt',
         ExpressionAttributeValues: {
           ':phone': rawUser.phone,
           ':displayName': rawUser.displayName,
           ':preferredLanguage': rawUser.preferredLanguage,
-          ':pictureUrl': rawUser.pictureUrl,
+          ':profilePicture': rawUser.profilePicture,
           ':updatedAt': rawUser.updatedAt,
         },
         ConditionExpression: 'attribute_exists(PK) AND attribute_exists(SK)',
