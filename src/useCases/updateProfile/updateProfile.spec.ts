@@ -1,12 +1,18 @@
+import { FileRepoImpl } from '../../repos/implementations/fileRepoImpl'
 import { User } from '../../domain/user'
 import { AppError } from '../../helpers/core/AppError'
 import { UserRepoImpl } from '../../repos/implementations/userRepoImpl'
 import { UpdateProfile, UpdateProfileResponse } from './updateProfile'
 import { UpdateProfileDTO } from './updateProfileDTO'
 import { UpdateProfileErrors } from './updateProfileErrors'
+import { S3BucketService } from '../../services/implementations/s3BucketService'
 jest.mock('../../repos/implementations/userRepoImpl')
+jest.mock('../../repos/implementations/fileRepoImpl')
+jest.mock('../../services/implementations/s3BucketService')
 
 const mockedUserRepo = jest.mocked(new UserRepoImpl(expect.anything()), true)
+const mockedFileRepo = jest.mocked(new FileRepoImpl(expect.anything()), true)
+const mockedBucketService = jest.mocked(new S3BucketService(expect.anything()), true)
 
 describe('UpdateProfile', () => {
   let instance: UpdateProfile
@@ -29,7 +35,7 @@ describe('UpdateProfile', () => {
       },
     }
     mockedUser = User.create({ email: 'test@test.com' }).getValue()
-    instance = new UpdateProfile(mockedUserRepo)
+    instance = new UpdateProfile(mockedUserRepo, mockedFileRepo, mockedBucketService)
   })
   describe('execute', () => {
     let result: UpdateProfileResponse

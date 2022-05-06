@@ -6,6 +6,8 @@ import { UpdateProfileDTO } from './updateProfileDTO'
 import { UpdateProfileErrors } from './updateProfileErrors'
 import { User, UserProps } from '../../domain/user'
 import { FileObject } from '../../domain/fileObject'
+import { FileRepo } from '../../repos/fileRepo'
+import { BucketService } from '../../services/bucketService'
 
 export type UpdateProfileResponse = Either<
   UpdateProfileErrors.NotFound | UpdateProfileErrors.InvalidProperty | AppError.UnexpectedError,
@@ -14,9 +16,13 @@ export type UpdateProfileResponse = Either<
 
 export class UpdateProfile implements UseCase<UpdateProfileDTO, UpdateProfileResponse> {
   private userRepo: UserRepo
+  private fileRepo: FileRepo
+  private bucketService: BucketService
 
-  constructor(userRepo: UserRepo) {
+  constructor(userRepo: UserRepo, fileRepo: FileRepo, bucketService: BucketService) {
     this.userRepo = userRepo
+    this.fileRepo = fileRepo
+    this.bucketService = bucketService
   }
 
   async execute(request: UpdateProfileDTO): Promise<UpdateProfileResponse> {
@@ -27,7 +33,7 @@ export class UpdateProfile implements UseCase<UpdateProfileDTO, UpdateProfileRes
         return left(new UpdateProfileErrors.NotFound())
       }
 
-      const newUserProps: UserProps = { ...user.props, ...request, profilePicture: undefined }
+      const newUserProps: UserProps = { ...user.props, ...request, profilePicture: user.props.profilePicture }
 
       if (request.profilePicture) {
         const fileObjectResult = FileObject.create(request.profilePicture)
@@ -35,6 +41,12 @@ export class UpdateProfile implements UseCase<UpdateProfileDTO, UpdateProfileRes
           return left(new UpdateProfileErrors.InvalidProperty(fileObjectResult.errorValue()))
         }
         newUserProps.profilePicture = fileObjectResult.getValue()
+
+        if (user.profilePicture && request.profilePicture.id !== user.profilePicture.props.id) {
+          await this.fileRepo.deleteFile(user.profilePicture.props.id)
+          const { pathname } = new URL(user.profilePicture.props.publicUrl)
+          await this.bucketService.deleteObject(pathname.substring(1))
+        }
       }
 
       const newUserResult = User.create(newUserProps, user.id)

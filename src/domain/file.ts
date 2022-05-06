@@ -48,6 +48,10 @@ export class File extends Entity<FileProps> {
       return Result.fail<File>(guardResult.message as string)
     }
 
+    if (props.folder !== 'profiles' && props.folder !== 'products') {
+      return Result.fail<File>('Only "profiles" or "products" folders are allowed')
+    }
+
     return Result.ok(new File(props, id))
   }
 }

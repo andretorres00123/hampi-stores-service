@@ -1,6 +1,9 @@
 locals {
   users_lambda_policy = templatefile("./policies/users_lambda_policy.json", {
-    HAMPI_TABLE_ARN = aws_dynamodb_table.hampi_table.arn
+    HAMPI_TABLE_ARN         = aws_dynamodb_table.hampi_table.arn
+    HAMPI_UPLOADS_TABLE_ARN = aws_dynamodb_table.uploads_table.arn
+    FILE_BUCKET_ID          = module.files_bucket.bucket_id
+    FILE_BUCKET_KMS_ARN     = module.files_bucket.kms_arn
   })
 
   users_lambda_environment_variables = {
@@ -8,6 +11,9 @@ locals {
     NODE_ENV                            = "production"
     HAMPI_APP_TABLE                     = aws_dynamodb_table.hampi_table.name
     CORS_ALLOW_ORIGIN                   = var.CORS_ALLOW_ORIGIN
+    HAMPI_FILES_TABLE                   = aws_dynamodb_table.uploads_table.name
+    HAMPI_FILES_BUCKET_NAME             = module.files_bucket.bucket_id
+    HAMPI_FILES_BUCKET_HOST             = aws_cloudfront_distribution.files_bucket_distribution.domain_name
   }
 
   users_lambda_name = "users_lambda"
