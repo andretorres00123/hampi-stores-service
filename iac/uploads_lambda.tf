@@ -11,6 +11,7 @@ locals {
     HAMPI_FILES_TABLE                   = aws_dynamodb_table.uploads_table.name
     HAMPI_FILES_BUCKET_NAME             = module.files_bucket.bucket_id
     HAMPI_FILES_BUCKET_HOST             = aws_cloudfront_distribution.files_bucket_distribution.domain_name
+    CORS_ALLOW_ORIGIN                   = var.CORS_ALLOW_ORIGIN
   }
 }
 
