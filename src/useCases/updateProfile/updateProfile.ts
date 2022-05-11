@@ -33,7 +33,7 @@ export class UpdateProfile implements UseCase<UpdateProfileDTO, UpdateProfileRes
         return left(new UpdateProfileErrors.NotFound())
       }
 
-      const newUserProps: UserProps = { ...user.props, ...request, profilePicture: user.props.profilePicture }
+      const newUserProps = { ...user.props, ...request } as UserProps
 
       if (request.profilePicture) {
         const fileObjectResult = FileObject.create(request.profilePicture)
