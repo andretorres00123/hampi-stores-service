@@ -7,6 +7,7 @@ import { CreateStoreErrors } from './createStoreErrors'
 import { Store } from '../../domain/store'
 import { UniqueEntityID } from '../../domain/common/UniqueEntityID'
 import { Category } from '../../domain/category'
+import { getFileObject } from '../utils/utils'
 
 export type CreateStoreResponse = Either<
   CreateStoreErrors.StoreAlreadyExistsError | CreateStoreErrors.InvalidRequest | AppError.UnexpectedError,
@@ -30,6 +31,8 @@ export class CreateStore implements UseCase<CreateStoreDTO, CreateStoreResponse>
       const storeResult = Store.create({
         ...request,
         categories,
+        profilePicture: getFileObject(request.profilePicture),
+        coverPicture: getFileObject(request.coverPicture),
         ownerId: new UniqueEntityID(request.ownerId),
       })
 

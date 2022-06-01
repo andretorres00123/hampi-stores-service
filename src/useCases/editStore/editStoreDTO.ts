@@ -4,12 +4,12 @@ export interface EditStoreDTO {
   city?: string
   state?: string
   displayName?: string
-  profileUrl?: string
+  profilePicture?: FileObjectDTO
   phone?: string
   whatsappUrl?: string
   locationAddress?: string
   locationUrl?: string
   description?: string
-  coverUrl?: string
+  coverPicture?: FileObjectDTO
   categories?: string[]
 }

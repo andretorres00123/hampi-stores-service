@@ -9,7 +9,7 @@ export interface RawUser {
   displayName?: string | null
   phone?: string | null
   preferredLanguage?: PREFERED_LANGUAGES
-  profilePicture?: FileObjectDTO | null
+  profilePicture?: FileObjectPersistence | null
   createdAt?: string
   updatedAt?: string
 }

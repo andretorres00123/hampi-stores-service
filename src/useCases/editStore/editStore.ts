@@ -7,6 +7,7 @@ import { EditStoreErrors } from './editStoreErrors'
 import { Store } from '../../domain/store'
 import { UniqueEntityID } from '../../domain/common/UniqueEntityID'
 import { Category } from '../../domain/category'
+import { getFileObject } from '../utils/utils'
 
 export type EditStoreResponse = Either<
   EditStoreErrors.NotFound | EditStoreErrors.InvalidRequest | AppError.UnexpectedError,
@@ -31,6 +32,8 @@ export class EditStore implements UseCase<EditStoreDTO, EditStoreResponse> {
         {
           ...store.props,
           ...request,
+          profilePicture: getFileObject(request.profilePicture) ?? store.props.profilePicture,
+          coverPicture: getFileObject(request.coverPicture) ?? store.props.coverPicture,
           ownerId: new UniqueEntityID(request.ownerId),
           categories: request.categories?.map((category) => Category.create({ name: category }).getValue()) || [],
         },

@@ -3,6 +3,7 @@ import { Result } from '../helpers/core/Result'
 import { Category } from './category'
 import { Entity } from './common/Entity'
 import { UniqueEntityID } from './common/UniqueEntityID'
+import { FileObject } from './fileObject'
 
 export interface StoreProps {
   workspace: string
@@ -12,8 +13,8 @@ export interface StoreProps {
   ownerId: UniqueEntityID
   categories: Category[]
   displayName?: string
-  profileUrl?: string
-  coverUrl?: string
+  profilePicture?: FileObject
+  coverPicture?: FileObject
   whatsappUrl?: string
   locationUrl?: string
   locationAddress?: string

@@ -1,6 +1,7 @@
 import { Category } from '../domain/category'
 import { UniqueEntityID } from '../domain/common/UniqueEntityID'
 import { Store } from '../domain/store'
+import { FileObjectMapper } from './fileObjectMapper'
 
 export interface RawStore {
   PK: string
@@ -14,8 +15,8 @@ export interface RawStore {
   ownerId: string
   categories: string[]
   displayName?: string
-  profileUrl?: string
-  coverUrl?: string
+  profilePicture?: FileObjectPersistence | null
+  coverPicture?: FileObjectPersistence | null
   whatsappUrl?: string
   locationUrl?: string
   locationAddress?: string
@@ -34,8 +35,8 @@ export interface StoreDTO {
   ownerId: string
   categories: string[]
   displayName?: string
-  profileUrl?: string
-  coverUrl?: string
+  profilePicture?: FileObjectDTO
+  coverPicture?: FileObjectDTO
   whatsappUrl?: string
   locationUrl?: string
   locationAddress?: string
@@ -61,6 +62,8 @@ export class StoreMapper {
       ownerId: store.props.ownerId.toString(),
       createdAt: store.props.createdAt?.toISOString(),
       updatedAt: store.props.updatedAt?.toISOString(),
+      profilePicture: FileObjectMapper.mapToPersistence(store.props.profilePicture),
+      coverPicture: FileObjectMapper.mapToPersistence(store.props.coverPicture),
     }
   }
 
@@ -72,6 +75,8 @@ export class StoreMapper {
         categories: (rawData.categories || []).map((category) => Category.create({ name: category }).getValue()),
         createdAt: rawData.createdAt ? new Date(rawData.createdAt) : undefined,
         updatedAt: rawData.updatedAt ? new Date(rawData.updatedAt) : undefined,
+        profilePicture: rawData.profilePicture ? FileObjectMapper.mapToDomain(rawData.profilePicture) : undefined,
+        coverPicture: rawData.coverPicture ? FileObjectMapper.mapToDomain(rawData.coverPicture) : undefined,
       },
       new UniqueEntityID(rawData.SK.replace('STORE#', '')),
     )
@@ -91,8 +96,8 @@ export class StoreMapper {
       city: store.props.city,
       state: store.props.state,
       displayName: store.props.displayName,
-      profileUrl: store.props.profileUrl,
-      coverUrl: store.props.coverUrl,
+      profilePicture: store.props.profilePicture ? FileObjectMapper.mapToDTO(store.props.profilePicture) : undefined,
+      coverPicture: store.props.coverPicture ? FileObjectMapper.mapToDTO(store.props.coverPicture) : undefined,
       whatsappUrl: store.props.whatsappUrl,
       locationUrl: store.props.locationUrl,
       locationAddress: store.props.locationAddress,

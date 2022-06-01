@@ -28,13 +28,13 @@ export class EditStoreController extends BaseController {
         city: parsedBody.city,
         state: parsedBody.state,
         displayName: parsedBody.displayName,
-        profileUrl: parsedBody.profileUrl,
+        profilePicture: parsedBody.profilePicture,
         phone: parsedBody.phone,
         whatsappUrl: parsedBody.whatsappUrl,
         locationAddress: parsedBody.locationAddress,
         locationUrl: parsedBody.locationUrl,
         description: parsedBody.description,
-        coverUrl: parsedBody.coverUrl,
+        coverPicture: parsedBody.coverPicture,
         categories: parsedBody.categories,
       })
 

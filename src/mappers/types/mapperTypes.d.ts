@@ -5,7 +5,7 @@ declare interface FileObjectDTO {
   ownerId: string
   filename: string
   folder: string
-  size: string | null
+  size?: string | null
 }
 
 declare interface FileObjectPersistence {
