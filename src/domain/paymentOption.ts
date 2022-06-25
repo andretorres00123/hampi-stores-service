@@ -7,7 +7,7 @@ export enum PaymentOptionsEnum {
 }
 
 export interface PaymentOptionProps {
-  value: number
+  value: string
 }
 
 export class PaymentOption extends ValueObject<PaymentOptionProps> {
