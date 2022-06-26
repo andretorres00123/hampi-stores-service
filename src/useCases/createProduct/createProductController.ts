@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, Callback } from 'aws-lambda'
-import { AppError } from 'helpers/core/AppError'
+import { AppError } from '../../helpers/core/AppError'
 import { BaseController } from '../../helpers/infra/baseResolver'
 import { CreateProduct } from './createProduct'
 import { CreateProductErrors } from './createProductErrors'

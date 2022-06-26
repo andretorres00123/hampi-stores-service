@@ -44,6 +44,13 @@ packages:
     trace:
       - functions/stores/index.js
 
+  products:
+    output: ../bundles/products.zip
+    cwd: ./dist
+
+    trace:
+      - functions/products/index.js
+
   uploads:
     output: ../bundles/uploads.zip
     cwd: ./dist

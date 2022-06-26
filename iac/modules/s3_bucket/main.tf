@@ -6,11 +6,26 @@ resource "aws_kms_key" "this_encrypt_key" {
   description             = "This key is used to encrypt bucket objects"
   deletion_window_in_days = 7
   enable_key_rotation     = true
+  policy                  = data.aws_iam_policy_document.this_kms_policy_trusted_role.json
 
   tags = merge(var.common_aws_tags, {
     Name        = "Hampi S3 Encryption Key"
     Description = "Allow Hampi to enable encryption on S3 bucket"
   })
+}
+
+data "aws_iam_policy_document" "this_kms_policy_trusted_role" {
+  # Set this account as administrator of the key to avoid "The new key policy will not allow you to update the key policy in the future"
+  statement {
+    effect    = "Allow"
+    resources = ["*"]
+    actions   = ["kms:*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [var.account_arn]
+    }
+  }
 }
 
 resource "aws_s3_bucket" "this" {

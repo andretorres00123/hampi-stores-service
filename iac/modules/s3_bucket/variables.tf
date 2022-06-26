@@ -16,5 +16,6 @@ variable "enable_versioning" {
   default = false
 }
 
+variable "account_arn" {}
 variable "common_aws_tags" {}
 variable "namespace" {}
