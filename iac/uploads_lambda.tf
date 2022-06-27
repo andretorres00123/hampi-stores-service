@@ -2,7 +2,7 @@ locals {
   uploads_lambda_policy = templatefile("./policies/uploads_lambda_policy.json", {
     HAMPI_UPLOADS_TABLE_ARN = aws_dynamodb_table.uploads_table.arn
     FILE_BUCKET_ID          = module.files_bucket.bucket_id
-    FILE_BUCKET_KMS_ARN     = aws_kms_key.hampi_kms_key.arn
+    FILE_BUCKET_KMS_ARN     = module.files_bucket.kms_arn
   })
 
   uploads_environment_variables = {

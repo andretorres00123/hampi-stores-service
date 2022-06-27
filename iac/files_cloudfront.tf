@@ -2,17 +2,17 @@ locals {
   origin_id = "HAMPI_FILES_BUCKET_ORIGIN"
 }
 
-resource "aws_cloudfront_origin_access_identity" "files_oai_identity" {
-  comment = "OAI for Files Bucket"
-}
+# resource "aws_cloudfront_origin_access_identity" "files_oai_identity" {
+#   comment = "OAI for Files Bucket"
+# }
 
 resource "aws_cloudfront_distribution" "files_bucket_distribution" {
   origin {
-    domain_name = module.files_bucket.bucket_regional_domain_name
+    domain_name = module.files_bucket.bucket_domain_name
     origin_id   = local.origin_id
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.files_oai_identity.cloudfront_access_identity_path
-    }
+    # s3_origin_config {
+    #   origin_access_identity = aws_cloudfront_origin_access_identity.files_oai_identity.cloudfront_access_identity_path
+    # }
   }
 
   enabled         = true
@@ -37,8 +37,8 @@ resource "aws_cloudfront_distribution" "files_bucket_distribution" {
       "PATCH",
     ]
     min_ttl                = 0
-    max_ttl                = 0
-    default_ttl            = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
     viewer_protocol_policy = "redirect-to-https"
     forwarded_values {
       query_string = true
@@ -87,7 +87,7 @@ resource "aws_iam_role_policy" "get_files_lambda_function_role_policy" {
   role = module.get_files_lambda.iam_role_name
   policy = templatefile("./policies/get_files_lambda_policy.json", {
     FILES_BUCKET_ID         = module.files_bucket.bucket_id
-    FILES_BUCKET_KMS_ARN    = aws_kms_key.hampi_kms_key.arn
+    FILES_BUCKET_KMS_ARN    = module.files_bucket.kms_arn
     HAMPI_UPLOADS_TABLE_ARN = aws_dynamodb_table.uploads_table.arn
   })
 }

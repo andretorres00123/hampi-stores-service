@@ -16,6 +16,5 @@ variable "enable_versioning" {
   default = false
 }
 
-variable "kms_key_arn" {}
 variable "common_aws_tags" {}
 variable "namespace" {}
