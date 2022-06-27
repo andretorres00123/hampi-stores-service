@@ -15,34 +15,35 @@ resource "aws_kms_key" "this_encrypt_key" {
 
 resource "aws_s3_bucket" "this" {
   bucket        = local.bucket_name
-  acl           = "private"
   force_destroy = true
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.this_encrypt_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
-
-  cors_rule {
-    allowed_methods = ["POST", "PUT"]
-    allowed_headers = ["*"]
-    allowed_origins = var.allowed_origins
-  }
-
-  versioning {
-    enabled = var.enable_versioning
-  }
 
   tags = merge(var.common_aws_tags, {
     Name        = "Hampi ${local.bucket_name} bucket"
     Description = var.bucket_description
   })
-  #checkov:skip=CKV2_AWS_6:public access block is configured correctly
-  #checkov:skip=CKV_AWS_144:no need for cross-region replication
+}
+
+resource "aws_s3_bucket_versioning" "this_versioning" {
+  bucket = aws_s3_bucket.this.id
+  versioning_configuration {
+    status = var.enable_versioning ? "Enabled" : "Disabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
+  bucket = aws_s3_bucket.this.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.this_encrypt_key.arn
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
+resource "aws_s3_bucket_acl" "this" {
+  bucket = aws_s3_bucket.this.id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_public_access_block" "media_bucket_public_access_block" {
@@ -52,4 +53,20 @@ resource "aws_s3_bucket_public_access_block" "media_bucket_public_access_block" 
   block_public_policy     = true
   restrict_public_buckets = true
   ignore_public_acls      = true
+}
+
+resource "aws_s3_bucket_cors_configuration" "this" {
+  bucket = aws_s3_bucket.this.bucket
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["PUT", "POST"]
+    allowed_origins = var.allowed_origins
+    expose_headers  = ["XMLHttpRequest "]
+  }
+
+  cors_rule {
+    allowed_methods = ["GET"]
+    allowed_origins = ["*"]
+  }
 }

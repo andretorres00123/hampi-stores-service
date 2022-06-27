@@ -38,6 +38,7 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
     aws_api_gateway_integration.users_put_integration,
     aws_api_gateway_integration.profile_get_integration,
     aws_api_gateway_integration.signed_url_integration,
+    aws_api_gateway_integration.products_post_integration,
   ]
 
   triggers = {
@@ -58,6 +59,7 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
       aws_api_gateway_method.users_put_method,
       aws_api_gateway_method.profile_get_method,
       aws_api_gateway_method.signed_url_get_method,
+      aws_api_gateway_method.products_post_method,
       aws_api_gateway_integration.sign_up_integration,
       aws_api_gateway_integration.stores_post_integration,
       aws_api_gateway_integration.store_get_integration,
@@ -67,6 +69,7 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
       aws_api_gateway_integration.users_put_integration,
       aws_api_gateway_integration.profile_get_integration,
       aws_api_gateway_integration.signed_url_integration,
+      aws_api_gateway_integration.products_post_integration,
       module.cors_configuration_stores_resource,
       module.cors_configuration_workspace_resource,
       module.cors_configuration_file_id_resource,
@@ -75,6 +78,7 @@ resource "aws_api_gateway_deployment" "stores_api_deployment" {
       module.update_profile_resource,
       module.profile_resource,
       module.cors_configuration_signed_url_resource,
+      module.cors_configuration_products_resource
     ]))
   }
 

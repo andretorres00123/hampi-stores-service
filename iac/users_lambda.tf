@@ -3,7 +3,7 @@ locals {
     HAMPI_TABLE_ARN         = aws_dynamodb_table.hampi_table.arn
     HAMPI_UPLOADS_TABLE_ARN = aws_dynamodb_table.uploads_table.arn
     FILE_BUCKET_ID          = module.files_bucket.bucket_id
-    FILE_BUCKET_KMS_ARN     = module.files_bucket.kms_arn
+    FILE_BUCKET_KMS_ARN     = aws_kms_key.hampi_kms_key.arn
   })
 
   users_lambda_environment_variables = {

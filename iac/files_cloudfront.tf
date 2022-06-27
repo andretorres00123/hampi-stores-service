@@ -2,10 +2,17 @@ locals {
   origin_id = "HAMPI_FILES_BUCKET_ORIGIN"
 }
 
+# resource "aws_cloudfront_origin_access_identity" "files_oai_identity" {
+#   comment = "OAI for Files Bucket"
+# }
+
 resource "aws_cloudfront_distribution" "files_bucket_distribution" {
   origin {
     domain_name = module.files_bucket.bucket_domain_name
     origin_id   = local.origin_id
+    # s3_origin_config {
+    #   origin_access_identity = aws_cloudfront_origin_access_identity.files_oai_identity.cloudfront_access_identity_path
+    # }
   }
 
   enabled         = true
@@ -30,8 +37,8 @@ resource "aws_cloudfront_distribution" "files_bucket_distribution" {
       "PATCH",
     ]
     min_ttl                = 0
-    max_ttl                = 0
-    default_ttl            = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
     viewer_protocol_policy = "redirect-to-https"
     forwarded_values {
       query_string = true

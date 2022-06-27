@@ -32,8 +32,10 @@
     {
       "Effect": "Allow",
       "Action": [
-        "kms:GenerateDataKey",
-        "kms:Decrypt"
+        "kms:Decrypt",
+        "kms:Encrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*"
       ],
       "Resource": [
         "${FILE_BUCKET_KMS_ARN}"
